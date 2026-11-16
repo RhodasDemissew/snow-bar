@@ -37,8 +37,8 @@ a{color:inherit}
 .eyebrow{font-weight:900;text-transform:uppercase;letter-spacing:.14em;font-size:.78rem;color:var(--cherry)}
 
 /* NAV with drip edge */
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--sky)}
-.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--sky);color:#fff}
+/* Nav pinned to the very top; its blue reaches up behind the phone status bar / address pill so nothing shows through */
+.nav{position:sticky;top:0;z-index:50;background:var(--sky);color:#fff;padding-top:env(safe-area-inset-top,0px)}
 .nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:4.25rem}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--f-display);font-size:1.5rem;color:#fff}
 .brand img{width:2.9rem;height:2.9rem;border-radius:50%;background:#fff;border:3px solid #fff}
@@ -138,7 +138,8 @@ section{padding-block:80px}
 .total .amt{font-family:var(--f-display);font-size:2.4rem;color:var(--cherry);font-variant-numeric:tabular-nums}
 .total p{color:var(--muted);font-weight:700;font-size:.9rem}
 /* One-screen builder: cone, choices and price always fit in the viewport together (nav height = 4.25rem) */
-.builder{scroll-margin-top:calc(4.25rem + 10px)}
+.builder{scroll-margin-top:calc(4.25rem + 10px + env(safe-area-inset-top,0px))}
+section,header{scroll-margin-top:calc(4.25rem + env(safe-area-inset-top,0px))}
 .stage .cone3d{width:min(20rem,75vw,calc((100vh - 4.25rem - 9.5rem)*.8));width:min(20rem,75vw,calc((100svh - 4.25rem - 9.5rem)*.8));min-width:9rem}
 @media (max-width:820px){
   .builder{grid-template-columns:minmax(0,1fr);gap:10px}
@@ -146,7 +147,7 @@ section{padding-block:80px}
   .build .head{margin-bottom:14px}
   .build .head p{display:none}
   .stage{padding:0;position:relative}
-  .stage .cone3d{width:auto;min-width:0;height:clamp(6rem,calc(100vh - 4.25rem - 25rem),16rem);height:clamp(6rem,calc(100svh - 4.25rem - 25rem),16rem)}
+  .stage .cone3d{width:auto;min-width:0;height:clamp(6rem,calc(100vh - 4.25rem - 25rem - env(safe-area-inset-top,0px)),16rem);height:clamp(6rem,calc(100svh - 4.25rem - 25rem - env(safe-area-inset-top,0px)),16rem)}
   .stage .play{display:none}
   .stage .name{font-size:1.15rem;margin-top:0}
   .controls{gap:10px;grid-template-columns:minmax(0,1fr)}
