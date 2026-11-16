@@ -63,9 +63,22 @@ a{color:inherit}
 .nav .mnav a:active{background:rgba(255,255,255,.3)}
 .nav .mnav a.cta{background:#fff;color:#1B3C8E}
 @media (max-width:640px){
-  .nav-right > ul li:not(:last-child){display:none}
+  /* phones: Build a cone + Find us stay visible, everything is also in the hamburger */
+  .nav-right > ul li:nth-child(1),.nav-right > ul li:nth-child(3){display:none}
+  .nav-right > ul a[href="#builder"]{border:2px solid rgba(255,255,255,.7)}
+  .nav-right > ul a.cta{border:2px solid #fff}
   .brand span{display:none}
   .burger{display:block}
+}
+@media (max-width:400px){
+  .nav-right{gap:6px}
+  .nav-right > ul{gap:6px}
+  .nav-right > ul a{padding:7px 11px;font-size:.88rem}
+  .burger{width:40px;height:40px}
+  .burger span{left:10px;right:10px}
+  .burger span:nth-child(1){top:12px}.burger span:nth-child(2){top:17.75px}.burger span:nth-child(3){top:23.5px}
+  .burger[aria-expanded="true"] span:nth-child(1),.burger[aria-expanded="true"] span:nth-child(3){top:17.75px}
+  .brand img{width:2.5rem;height:2.5rem}
 }
 @media (min-width:641px){.mnav{display:none!important}}
 
