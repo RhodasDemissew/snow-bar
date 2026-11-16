@@ -1,6 +1,7 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
+<script>(function(){try{var m=localStorage.getItem("sb-theme");if(m==="light"||m==="dark")document.documentElement.setAttribute("data-theme",m)}catch(e){}})()</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Snow Bar Addis</title>
@@ -43,7 +44,7 @@ a{color:inherit}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--f-display);font-size:1.5rem;color:#fff}
 .brand img{flex:none;width:2.9rem;height:2.9rem;border-radius:50%;background:#fff;border:3px solid #fff}
 .nav ul{display:flex;gap:6px;list-style:none;margin:0;padding:0}
-.nav ul a{display:block;padding:8px 14px;border-radius:999px;text-decoration:none;font-weight:800;color:#fff}
+.nav ul a{display:block;white-space:nowrap;padding:8px 14px;border-radius:999px;text-decoration:none;font-weight:800;color:#fff}
 .nav ul a:hover{background:rgba(255,255,255,.18)}
 .nav ul a.cta{background:#fff;color:#1B3C8E}
 .drip{position:absolute;left:0;right:0;top:100%;height:22px;display:block;width:100%}
@@ -81,6 +82,16 @@ a{color:inherit}
   .brand img{width:2.5rem;height:2.5rem}
 }
 @media (min-width:641px){.mnav{display:none!important}}
+/* Dark / light toggle */
+.themebtn{width:44px;height:44px;border-radius:50%;border:2px solid rgba(255,255,255,.55);background:transparent;color:#fff;cursor:pointer;display:grid;place-items:center;flex:none;padding:0}
+.themebtn svg{width:20px;height:20px}
+.themebtn:hover{background:rgba(255,255,255,.18)}
+:root[data-theme="dark"] .ico-moon,:root[data-theme="light"] .ico-sun{display:none}
+.nav .mnav button.mtheme{all:unset;box-sizing:border-box;width:100%;display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-radius:16px;background:rgba(10,20,48,.18);color:#fff;font-family:var(--f-display);font-size:1.35rem;cursor:pointer}
+.nav .mnav button.mtheme:focus-visible{outline:3px solid var(--mango)}
+.nav .mnav button.mtheme svg{width:22px;height:22px}
+@media (max-width:400px){.themebtn{width:40px;height:40px}}
+@media (max-width:350px){.nav-right .themebtn{display:none}.nav-right > ul a{padding:7px 9px;font-size:.84rem}}
 
 /* HERO */
 .hero{position:relative;overflow:hidden;background:linear-gradient(180deg,var(--hero-a),var(--hero-b));padding-block:72px 56px}
@@ -323,6 +334,7 @@ footer .tag{font-family:var(--f-display);font-size:1.6rem;color:#fff}
         <li><a href="#fans">Chill Crew</a></li>
         <li><a class="cta" href="#find">Find us</a></li>
       </ul>
+      <button class="themebtn" id="themeBtn" type="button" aria-label="Switch to light mode"><svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg><svg class="ico-moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.5 14.6A8.5 8.5 0 0 1 9.4 3.5a8.5 8.5 0 1 0 11.1 11.1Z"/></svg></button>
       <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
     </div>
   </div>
@@ -332,6 +344,7 @@ footer .tag{font-family:var(--f-display);font-size:1.6rem;color:#fff}
       <li><a href="#builder">Build a cone</a></li>
       <li><a href="#fans">Chill Crew</a></li>
       <li><a class="cta" href="#find">Find us</a></li>
+      <li><button class="mtheme" id="themeBtn2" type="button"><span id="themeLabel">Light mode</span><svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg><svg class="ico-moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.5 14.6A8.5 8.5 0 0 1 9.4 3.5a8.5 8.5 0 1 0 11.1 11.1Z"/></svg></button></li>
     </ul>
   </div>
   <svg class="drip" viewBox="0 0 1200 22" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0H1200V6C1170 6 1165 20 1150 20S1130 6 1100 6 1010 4 990 4 975 16 960 16 945 4 920 4 800 6 780 6 768 22 752 22 736 6 700 6 560 4 540 4 530 14 518 14 506 4 480 4 340 6 320 6 310 19 296 19 282 6 250 6 120 4 100 4 92 13 82 13 72 4 50 4 0 6 0 6Z"/></svg>
@@ -1078,6 +1091,26 @@ function render(){
   if (!picked.length) document.getElementById("bSummary").textContent = "Pure shaved ice. Tap a flavor to pour it on.";
 }
 
+// Dark / light mode: dark by default for everyone; the visitor's choice is remembered
+(() => {
+  const root = document.documentElement;
+  const sync = () => {
+    const dark = root.getAttribute("data-theme") !== "light";
+    const next = dark ? "light" : "dark";
+    document.getElementById("themeBtn").setAttribute("aria-label", "Switch to " + next + " mode");
+    document.getElementById("themeLabel").textContent = dark ? "Light mode" : "Dark mode";
+  };
+  const toggle = () => {
+    const t = root.getAttribute("data-theme") === "light" ? "dark" : "light";
+    root.setAttribute("data-theme", t);
+    try { localStorage.setItem("sb-theme", t); } catch (e) {}
+    sync(); dispatchEvent(new Event("themechange"));
+  };
+  document.getElementById("themeBtn").addEventListener("click", toggle);
+  document.getElementById("themeBtn2").addEventListener("click", toggle);
+  sync();
+})();
+
 // Phone menu: open/close the hamburger panel; any link, outside tap or Esc closes it
 (() => {
   const btn = document.getElementById("burger"), panel = document.getElementById("mnav");
@@ -1142,7 +1175,7 @@ render();
   resize(); addEventListener("resize", resize);
   for (let i = 0; i < 70; i++) flakes.push({x:Math.random()*w, y:Math.random()*h, r:1.5+Math.random()*3.5, s:.3+Math.random()*.9, d:Math.random()*Math.PI*2});
   const col = () => getComputedStyle(document.documentElement).getPropertyValue("--snow").trim() || "#fff";
-  let c = col(); matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => c = col());
+  let c = col(); addEventListener("themechange", () => c = col());
   (function tick(){
     ctx.clearRect(0,0,w,h); ctx.fillStyle = c; ctx.globalAlpha = .85;
     for (const f of flakes){
