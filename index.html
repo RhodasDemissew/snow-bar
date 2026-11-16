@@ -174,7 +174,7 @@ section{padding-block:80px}
 .ctl h3{font-family:var(--f-body);font-weight:900;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chip{font:inherit;font-weight:800;font-size:.95rem;padding:9px 14px;border-radius:999px;border:2px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:8px}
-.chip .sw{width:14px;height:14px;border-radius:50%;background:var(--c)}
+.chip .sw{flex:none;width:14px;height:14px;border-radius:50%;background:var(--c)}
 .chip[aria-pressed="true"]{border-color:var(--navy);background:var(--navy);color:var(--bg)}
 .chip.sig[aria-pressed="true"]{border-color:var(--cherry);background:var(--cherry);color:#fff}
 .total{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;background:var(--bg);border-radius:var(--r-md);padding:16px 20px}
@@ -201,9 +201,9 @@ section,header{scroll-margin-top:calc(4.25rem + env(safe-area-inset-top,0px))}
   .chip{padding:6px 10px;font-size:.8rem;gap:6px}
   .chip .sw{width:11px;height:11px}
   #flavorChips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
-  #flavorChips .chip{justify-content:flex-start;padding:5px 7px;font-size:.72rem;white-space:nowrap;overflow:hidden;min-width:0}
+  #flavorChips .chip{justify-content:flex-start;padding:5px 7px;font-size:.72rem;white-space:normal;line-height:1.15;text-align:left;min-width:0;overflow-wrap:anywhere}
   #addonChips{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}
-  #addonChips .chip{padding:5px 8px;font-size:.72rem;white-space:nowrap;overflow:hidden;min-width:0}
+  #addonChips .chip{padding:5px 8px;font-size:.72rem;white-space:normal;line-height:1.15;text-align:left;min-width:0}
   .total{position:sticky;bottom:max(8px,env(safe-area-inset-bottom,0px));z-index:5;padding:10px 14px;box-shadow:0 -6px 22px rgba(10,20,48,.22);flex-wrap:nowrap;gap:10px;min-width:0}
   .total > div{flex:1 1 0;min-width:0;overflow:hidden}
   .total p{font-size:.78rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -1166,25 +1166,82 @@ if (buildCone){
 }
 render();
 
-// Falling snow
+// Falling snow: soft layered flakes with depth, sway, gusts of wind and a few spinning crystals
 (() => {
   const cv = document.getElementById("snow"), ctx = cv.getContext("2d");
   if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  let w, h, flakes = [];
-  const resize = () => { const r = cv.getBoundingClientRect(), d = devicePixelRatio || 1; w = r.width; h = r.height; cv.width = w*d; cv.height = h*d; ctx.setTransform(d,0,0,d,0,0); };
-  resize(); addEventListener("resize", resize);
-  for (let i = 0; i < 70; i++) flakes.push({x:Math.random()*w, y:Math.random()*h, r:1.5+Math.random()*3.5, s:.3+Math.random()*.9, d:Math.random()*Math.PI*2});
-  const col = () => getComputedStyle(document.documentElement).getPropertyValue("--snow").trim() || "#fff";
-  let c = col(); addEventListener("themechange", () => c = col());
-  (function tick(){
-    ctx.clearRect(0,0,w,h); ctx.fillStyle = c; ctx.globalAlpha = .85;
-    for (const f of flakes){
-      f.y += f.s; f.d += .01; f.x += Math.sin(f.d)*.4;
-      if (f.y > h + 5){ f.y = -5; f.x = Math.random()*w; }
-      ctx.beginPath(); ctx.arc(f.x, f.y, f.r, 0, Math.PI*2); ctx.fill();
+  let w = 0, h = 0, flakes = [], sprites = [], running = true;
+  const isLight = () => document.documentElement.getAttribute("data-theme") === "light";
+  function makeSprites(){
+    const light = isLight(); sprites = [];
+    // soft round flakes: bright core fading out (light theme gets a faint blue rim so flakes show on pale sky)
+    for (const r of [8, 16, 32]){
+      const c = document.createElement("canvas"); c.width = c.height = r*2;
+      const g = c.getContext("2d"), gr = g.createRadialGradient(r, r, 0, r, r, r);
+      if (light){ gr.addColorStop(0, "rgba(255,255,255,1)"); gr.addColorStop(.45, "rgba(245,251,255,.92)"); gr.addColorStop(.75, "rgba(120,175,215,.35)"); gr.addColorStop(1, "rgba(120,175,215,0)"); }
+      else { gr.addColorStop(0, "rgba(255,255,255,1)"); gr.addColorStop(.35, "rgba(255,255,255,.9)"); gr.addColorStop(.7, "rgba(225,240,255,.35)"); gr.addColorStop(1, "rgba(225,240,255,0)"); }
+      g.fillStyle = gr; g.fillRect(0, 0, r*2, r*2); sprites.push(c);
     }
+    // six-armed crystal for the closest flakes
+    const S = 64, c = document.createElement("canvas"); c.width = c.height = S;
+    const g = c.getContext("2d"); g.translate(S/2, S/2);
+    g.strokeStyle = light ? "rgba(110,165,210,.95)" : "rgba(255,255,255,.95)"; g.lineWidth = 2.2; g.lineCap = "round";
+    for (let i = 0; i < 6; i++){
+      g.rotate(Math.PI/3); g.beginPath();
+      g.moveTo(0, 0); g.lineTo(0, -27);
+      g.moveTo(0, -11); g.lineTo(-7, -18); g.moveTo(0, -11); g.lineTo(7, -18);
+      g.moveTo(0, -19); g.lineTo(-4.5, -23.5); g.moveTo(0, -19); g.lineTo(4.5, -23.5);
+      g.stroke();
+    }
+    g.beginPath(); g.arc(0, 0, 3, 0, Math.PI*2); g.fillStyle = g.strokeStyle; g.fill();
+    sprites.push(c);
+  }
+  function spawn(f, fromTop){
+    f.z = Math.pow(Math.random(), 1.7);              // most flakes are far away (small, slow, faint)
+    f.size = 1 + f.z*5.2;
+    f.vy = .22 + f.z*1.2 + Math.random()*.15;
+    f.alpha = .28 + f.z*.65;
+    f.sway = .25 + Math.random()*.8; f.ph = Math.random()*6.28; f.fr = .006 + Math.random()*.014;
+    f.crystal = f.z > .78 && Math.random() < .4;
+    f.rot = Math.random()*6.28; f.vr = (Math.random() - .5)*.025;
+    f.x = Math.random()*w; f.y = fromTop ? -12 - Math.random()*60 : Math.random()*h;
+    return f;
+  }
+  function resize(){
+    const r = cv.getBoundingClientRect(), d = Math.min(devicePixelRatio || 1, 2);
+    w = r.width; h = r.height; cv.width = w*d; cv.height = h*d; ctx.setTransform(d, 0, 0, d, 0, 0);
+    const want = Math.min(190, Math.max(40, Math.round(w*h/6500)));
+    while (flakes.length < want) flakes.push(spawn({}, false));
+    flakes.length = want;
+    flakes.sort((a, b) => a.z - b.z);                 // far flakes drawn first, near ones on top
+  }
+  makeSprites(); resize();
+  addEventListener("resize", resize);
+  addEventListener("themechange", makeSprites);
+  new IntersectionObserver(es => { running = es[0].isIntersecting; }).observe(cv);
+  (function tick(t){
     requestAnimationFrame(tick);
-  })();
+    if (!running) return;
+    ctx.clearRect(0, 0, w, h);
+    const wind = Math.sin(t/4200)*.35 + Math.sin(t/1600 + 1)*.18;   // slow gusts
+    for (const f of flakes){
+      f.ph += f.fr;
+      f.y += f.vy;
+      f.x += Math.sin(f.ph)*f.sway*.45 + wind*(.35 + f.z);
+      f.rot += f.vr;
+      if (f.y > h + 14){ spawn(f, true); continue; }
+      if (f.x < -14) f.x += w + 28; else if (f.x > w + 14) f.x -= w + 28;
+      ctx.globalAlpha = f.alpha;
+      if (f.crystal){
+        const d = f.size*3.2;
+        ctx.save(); ctx.translate(f.x, f.y); ctx.rotate(f.rot); ctx.drawImage(sprites[3], -d/2, -d/2, d, d); ctx.restore();
+      } else {
+        const d = f.size*2.4, sp = f.size < 2.4 ? sprites[0] : f.size < 4.2 ? sprites[1] : sprites[2];
+        ctx.drawImage(sp, f.x - d/2, f.y - d/2, d, d);
+      }
+    }
+    ctx.globalAlpha = 1;
+  })(0);
 })();
 </script>
 </body>
