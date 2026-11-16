@@ -41,14 +41,33 @@ a{color:inherit}
 .nav{position:sticky;top:0;z-index:50;background:var(--sky);color:#fff;padding-top:env(safe-area-inset-top,0px)}
 .nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:4.25rem}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--f-display);font-size:1.5rem;color:#fff}
-.brand img{width:2.9rem;height:2.9rem;border-radius:50%;background:#fff;border:3px solid #fff}
+.brand img{flex:none;width:2.9rem;height:2.9rem;border-radius:50%;background:#fff;border:3px solid #fff}
 .nav ul{display:flex;gap:6px;list-style:none;margin:0;padding:0}
 .nav ul a{display:block;padding:8px 14px;border-radius:999px;text-decoration:none;font-weight:800;color:#fff}
 .nav ul a:hover{background:rgba(255,255,255,.18)}
 .nav ul a.cta{background:#fff;color:#1B3C8E}
 .drip{position:absolute;left:0;right:0;top:100%;height:22px;display:block;width:100%}
 .drip path{fill:var(--sky)}
-@media (max-width:640px){.nav ul li:not(:last-child){display:none}.brand span{display:none}}
+/* Phone menu: Find us stays visible, the rest lives behind a hamburger */
+.nav-right{display:flex;align-items:center;gap:10px}
+.burger{display:none;width:44px;height:44px;border-radius:50%;border:2px solid rgba(255,255,255,.55);background:transparent;cursor:pointer;position:relative;flex:none}
+.burger span{position:absolute;left:11px;right:11px;height:2.5px;border-radius:2px;background:#fff;transition:transform .25s,opacity .2s,top .25s}
+.burger span:nth-child(1){top:14px}.burger span:nth-child(2){top:19.75px}.burger span:nth-child(3){top:25.5px}
+.burger[aria-expanded="true"] span:nth-child(1){top:19.75px;transform:rotate(45deg)}
+.burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.burger[aria-expanded="true"] span:nth-child(3){top:19.75px;transform:rotate(-45deg)}
+.mnav{position:absolute;left:0;right:0;top:100%;z-index:2;background:var(--sky);padding:6px max(16px,env(safe-area-inset-right,0px)) 18px max(16px,env(safe-area-inset-left,0px));box-shadow:0 18px 30px rgba(10,20,48,.35);border-radius:0 0 24px 24px}
+.nav .mnav ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.nav .mnav a{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-radius:16px;background:rgba(255,255,255,.16);color:#fff;text-decoration:none;font-family:var(--f-display);font-size:1.35rem}
+.nav .mnav a::after{content:"→";font-family:var(--f-body);font-weight:900}
+.nav .mnav a:active{background:rgba(255,255,255,.3)}
+.nav .mnav a.cta{background:#fff;color:#1B3C8E}
+@media (max-width:640px){
+  .nav-right > ul li:not(:last-child){display:none}
+  .brand span{display:none}
+  .burger{display:block}
+}
+@media (min-width:641px){.mnav{display:none!important}}
 
 /* HERO */
 .hero{position:relative;overflow:hidden;background:linear-gradient(180deg,var(--hero-a),var(--hero-b));padding-block:72px 56px}
@@ -284,6 +303,17 @@ footer .tag{font-family:var(--f-display);font-size:1.6rem;color:#fff}
 <nav class="nav" aria-label="Main">
   <div class="wrap">
     <a class="brand" href="#top"><img src="assets/logo.jpg" alt="Snow Bar logo"><span>Snow Bar</span></a>
+    <div class="nav-right">
+      <ul>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#builder">Build a cone</a></li>
+        <li><a href="#fans">Chill Crew</a></li>
+        <li><a class="cta" href="#find">Find us</a></li>
+      </ul>
+      <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <div class="mnav" id="mnav" hidden>
     <ul>
       <li><a href="#menu">Menu</a></li>
       <li><a href="#builder">Build a cone</a></li>
@@ -1039,6 +1069,17 @@ function render(){
   document.getElementById("bTotal").textContent = picked.length ? total + " birr" : "Pick a flavor";
   if (!picked.length) document.getElementById("bSummary").textContent = "Pure shaved ice. Tap a flavor to pour it on.";
 }
+
+// Phone menu: open/close the hamburger panel; any link, outside tap or Esc closes it
+(() => {
+  const btn = document.getElementById("burger"), panel = document.getElementById("mnav");
+  const set = open => { panel.hidden = !open; btn.setAttribute("aria-expanded", open); btn.setAttribute("aria-label", open ? "Close menu" : "Open menu"); };
+  btn.addEventListener("click", e => { e.stopPropagation(); set(panel.hidden); });
+  panel.addEventListener("click", e => { if (e.target.closest("a")) set(false); });
+  document.addEventListener("click", e => { if (!panel.hidden && !e.target.closest(".nav")) set(false); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape" && !panel.hidden){ set(false); btn.focus(); } });
+  addEventListener("resize", () => { if (innerWidth > 640) set(false); });
+})();
 
 // Fan photo slider: one photo at a time; click/tap, arrows, dots, swipe or arrow keys
 (() => {
