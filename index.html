@@ -12,19 +12,19 @@
 <style>
 /* Layout: drippy sticky nav → split hero with live cone + falling snow → flavor wall (two tiers) → build-your-cone tool → find us + socials → footer */
 :root{
-  --sky:#1FA3E0; --navy:#1B3C8E; --cherry:#E5266E; --lime:#7CC242; --mango:#F7A51D; --grape:#7A4CB6;
-  --bg:#F3FAFE; --surface:#FFFFFF; --ink:#132A5E; --muted:#56688F; --line:#D5E9F6; --snow:#FFFFFF;
-  --hero-a:#DDF2FC; --hero-b:#F3FAFE; --night:#13254F; --on-accent:#FFFFFF; --deep:#1B3C8E;
+  --sky:#20A9F4; --navy:#1B3C8E; --cherry:#FF2B86; --lime:#9BD31F; --mango:#FFAA00; --grape:#7A4CB6;
+  --bg:#F7FBFF; --surface:#FFFFFF; --ink:#132A5E; --muted:#56688F; --line:#D5E9F6; --snow:#FFFFFF;
+  --hero-a:#DDF2FC; --hero-b:#F7FBFF; --night:#13254F; --on-accent:#FFFFFF; --deep:#1B3C8E;
   --f-display:"Lilita One","Arial Rounded MT Bold","Trebuchet MS",sans-serif;
   --f-body:"Nunito",system-ui,-apple-system,"Segoe UI",sans-serif;
   --r-lg:28px; --r-md:18px;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#0A1430; --surface:#12204A; --ink:#EAF4FF; --muted:#A9BCE0; --line:#22346A; --snow:#CFE8FF;
-  --hero-a:#0F2257; --hero-b:#0A1430; --night:#060D22; --sky:#3BB6EE; --navy:#9CC3FF; --deep:#183376; color-scheme:dark}}
+  --hero-a:#0F2257; --hero-b:#0A1430; --night:#060D22; --sky:#20A9F4; --navy:#9CC3FF; --deep:#183376; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#0A1430; --surface:#12204A; --ink:#EAF4FF; --muted:#A9BCE0; --line:#22346A; --snow:#CFE8FF;
-  --hero-a:#0F2257; --hero-b:#0A1430; --night:#060D22; --sky:#3BB6EE; --navy:#9CC3FF; --deep:#183376; color-scheme:dark}
+  --hero-a:#0F2257; --hero-b:#0A1430; --night:#060D22; --sky:#20A9F4; --navy:#9CC3FF; --deep:#183376; color-scheme:dark}
 
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -105,12 +105,12 @@ a{color:inherit}
 .btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
 .btn{display:inline-flex;align-items:center;gap:8px;padding:15px 26px;border-radius:999px;font-weight:900;text-decoration:none;font-size:1.05rem;border:0;cursor:pointer;transition:transform .15s}
 .btn:hover{transform:translateY(-2px) rotate(-1deg)}
-.btn-pink{background:var(--cherry);color:var(--on-accent);box-shadow:0 6px 0 #A8134C}
+.btn-pink{background:var(--cherry);color:var(--on-accent);box-shadow:0 6px 0 #C80F62}
 .btn-ghost{background:var(--surface);color:var(--ink);box-shadow:0 6px 0 var(--line)}
 .hero-cone{position:relative;justify-self:center;width:min(21rem,80vw)}
 .hero-cone svg{width:100%;height:auto;display:block;filter:drop-shadow(0 18px 24px rgba(27,60,142,.18))}
 .hero-cone .float{animation:bob 4s ease-in-out infinite}
-.badge{position:absolute;top:-6px;right:-10px;width:7rem;height:7rem;border-radius:50%;background:var(--mango);color:#fff;display:grid;place-items:center;text-align:center;font-family:var(--f-display);font-size:1.05rem;line-height:1.05;transform:rotate(12deg);box-shadow:0 6px 0 #C47D06}
+.badge{position:absolute;top:-6px;right:-10px;width:7rem;height:7rem;border-radius:50%;background:var(--mango);color:#fff;display:grid;place-items:center;text-align:center;font-family:var(--f-display);font-size:1.05rem;line-height:1.05;transform:rotate(12deg);box-shadow:0 6px 0 #C98600}
 .badge small{display:block;font-family:var(--f-body);font-weight:900;font-size:.62rem;letter-spacing:.12em}
 @keyframes bob{50%{transform:translateY(-10px) rotate(-2deg)}}
 @media (max-width:820px){.hero .wrap{grid-template-columns:1fr;text-align:center}.hero .lede{margin-inline:auto}.btns{justify-content:center}.hero-cone{width:min(16rem,68vw)}.badge{width:5.6rem;height:5.6rem;font-size:.9rem;right:-4px}}
@@ -128,6 +128,12 @@ section{padding-block:80px}
 .head p{color:var(--muted);max-width:52ch}
 .tiers{display:grid;grid-template-columns:1fr 1fr;gap:28px}
 .tier{background:var(--surface);border-radius:var(--r-lg);padding:28px;border:3px solid var(--tc);position:relative;min-width:0}
+.menu-icon{width:96px;height:96px;animation:bob 4s ease-in-out infinite;filter:drop-shadow(0 8px 12px rgba(10,20,48,.18))}
+.addons-label{font-family:var(--f-display);font-size:1.3rem;color:var(--navy);align-self:center}
+.printed{text-align:center;margin-top:22px}
+.printed a{font-weight:900;color:var(--sky);text-decoration:none;border-bottom:2px solid currentColor}
+@media (max-width:640px){.menu-icon{width:76px;height:76px}}
+@media (prefers-reduced-motion: reduce){.menu-icon{animation:none}}
 .tier.classic{--tc:var(--sky)} .tier.signature{--tc:var(--cherry)}
 .tier-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
 .tier h3{font-size:2rem;color:#fff;background:var(--tc);padding:6px 22px;border-radius:999px}
@@ -209,7 +215,7 @@ section,header{scroll-margin-top:calc(4.25rem + env(safe-area-inset-top,0px))}
   .total > div{flex:1 1 0;min-width:0;overflow:hidden}
   .total p{font-size:.78rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .total .amt{font-size:1.6rem;white-space:nowrap}
-  .total .btn{white-space:nowrap;flex:none;padding:10px 16px;font-size:.9rem;box-shadow:0 4px 0 #A8134C}
+  .total .btn{white-space:nowrap;flex:none;padding:10px 16px;font-size:.9rem;box-shadow:0 4px 0 #C80F62}
 }
 /* Narrow phones: long flavor names wrap to two short lines instead of being cut off */
 @media (max-width:380px){
@@ -245,7 +251,7 @@ section,header{scroll-margin-top:calc(4.25rem + env(safe-area-inset-top,0px))}
 .social:hover{transform:translateY(-3px)}
 .social svg{width:40px;height:40px;flex:none}
 .social b{display:block;font-family:var(--f-display);font-weight:400;font-size:1.5rem}
-.ig{background:linear-gradient(135deg,#F7A51D,#E5266E 55%,#7A4CB6)}
+.ig{background:linear-gradient(135deg,#FFAA00,#FF2B86 55%,#7A4CB6)}
 .tt{background:#111}
 .group{background:var(--surface);border:3px dashed var(--line);border-radius:var(--r-lg);padding:22px;color:var(--ink)}
 .group b{font-family:var(--f-display);font-weight:400;font-size:1.4rem;color:var(--navy);display:block}
@@ -300,9 +306,9 @@ footer .tag{font-family:var(--f-display);font-size:1.6rem;color:#fff}
 @media (max-width:360px){.hero h1{font-size:2.4rem}.btn{padding:13px 20px}.total .amt{font-size:1.3rem}.place{padding:26px}.place h3{font-size:2rem}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 </style>
-<meta name="theme-color" content="#1FA3E0">
-<link rel="icon" type="image/jpeg" href="/assets/logo.jpg">
-<link rel="apple-touch-icon" href="/assets/logo.jpg">
+<meta name="theme-color" content="#20A9F4">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Snow Bar">
 <meta property="og:title" content="Snow Bar | Ethiopia's first snow cone">
@@ -318,9 +324,9 @@ footer .tag{font-family:var(--f-display);font-size:1.6rem;color:#fff}
     <clipPath id="logoClip"><circle cx="100" cy="173" r="36"/></clipPath>
     <clipPath id="domeClip"><path d="M28 112 C28 22 172 22 172 112 Z"/></clipPath>
     <symbol id="cup" viewBox="0 0 200 250">
-      <path d="M38 116 L162 116 L146 232 Q100 244 54 232 Z" fill="#FFFFFF" stroke="#1FA3E0" stroke-width="7" stroke-linejoin="round"/>
+      <path d="M38 116 L162 116 L146 232 Q100 244 54 232 Z" fill="#FFFFFF" stroke="#20A9F4" stroke-width="7" stroke-linejoin="round"/>
       <image href="assets/logo.jpg" x="62" y="135" width="76" height="76" clip-path="url(#logoClip)" preserveAspectRatio="xMidYMid slice"/>
-      <rect x="30" y="104" width="140" height="18" rx="9" fill="#1FA3E0"/>
+      <rect x="30" y="104" width="140" height="18" rx="9" fill="#20A9F4"/>
     </symbol>
   </defs>
 </svg>
@@ -357,7 +363,7 @@ footer .tag{font-family:var(--f-display);font-size:1.6rem;color:#fff}
     <div>
       <p class="eyebrow"><span class="nw">Ambassador Mall</span> · <span class="nw">3rd floor</span> · <span class="nw">Open 12 PM – 8 PM</span></p>
       <h1>Ethiopia's first <span class="rain">snow cone</span> is here.</h1>
-      <p class="lede">Fluffy shaved ice, soaked in bright fruit syrups. Nine flavors, two sizes, one big chill.</p>
+      <p class="lede">Fluffy shaved ice, soaked in bright fruit syrups. Eight flavors, two sizes, one big chill.</p>
       <p class="am" lang="am">ስኖው ባር — Up for a Chill?</p>
       <div class="btns">
         <a class="btn btn-pink" href="#menu">See the flavors</a>
@@ -367,9 +373,9 @@ footer .tag{font-family:var(--f-display);font-size:1.6rem;color:#fff}
     <div class="hero-cone">
       <svg class="float" viewBox="0 0 200 250" role="img" aria-label="A rainbow snow cone in a Snow Bar cup">
         <g clip-path="url(#domeClip)">
-          <rect x="0" y="0" width="76" height="120" fill="#E5266E"/>
-          <rect x="76" y="0" width="50" height="120" fill="#F7A51D"/>
-          <rect x="126" y="0" width="80" height="120" fill="#7CC242"/>
+          <rect x="0" y="0" width="76" height="120" fill="#FF2B86"/>
+          <rect x="76" y="0" width="50" height="120" fill="#FFAA00"/>
+          <rect x="126" y="0" width="80" height="120" fill="#9BD31F"/>
           <path d="M28 112 C28 22 172 22 172 112 Z" fill="url(#gloss)"/>
         </g>
         <defs><radialGradient id="gloss" cx=".35" cy=".25" r=".7"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/></radialGradient></defs>
@@ -387,6 +393,7 @@ footer .tag{font-family:var(--f-display);font-size:1.6rem;color:#fff}
 <section id="menu">
   <div class="wrap">
     <div class="head">
+      <img class="menu-icon" src="assets/icon.png" alt="" width="96" height="96">
       <p class="eyebrow">The menu</p>
       <h2>Pick your chill</h2>
       <p>Every cone is shaved fresh and soaked in syrup. Mix as many flavors as you like. Tap any flavor to add it to your cone in the builder.</p>
@@ -408,9 +415,11 @@ footer .tag{font-family:var(--f-display);font-size:1.6rem;color:#fff}
       </article>
     </div>
     <div class="addons">
+      <span class="addons-label">Toppings</span>
       <div class="addon"><span class="dot" style="--c:#1F0D05"></span>Chocolate Syrup <em>+50 birr</em></div>
       <div class="addon"><span class="dot" style="--c:#F1D9A2"></span>Condensed Milk <em>+50 birr</em></div>
     </div>
+    <p class="printed"><a href="assets/menu.jpg" target="_blank" rel="noopener">See the printed menu →</a></p>
   </div>
 </section>
 
@@ -445,7 +454,7 @@ footer .tag{font-family:var(--f-display);font-size:1.6rem;color:#fff}
           <button class="chip" id="size-small" data-size="small" aria-pressed="true">Small</button>
           <button class="chip" id="size-large" data-size="large" aria-pressed="false">Large</button>
         </div></div>
-        <div class="ctl"><h3>Add-ons</h3><div class="chips" id="addonChips">
+        <div class="ctl"><h3>Toppings</h3><div class="chips" id="addonChips">
           <button class="chip" id="add-choc" data-addon="choc" aria-pressed="false"><span class="sw" style="--c:#1F0D05"></span>Chocolate Syrup +50</button>
           <button class="chip" id="add-milk" data-addon="milk" aria-pressed="false"><span class="sw" style="--c:#F1D9A2"></span>Condensed Milk +50</button>
         </div></div>
@@ -576,7 +585,7 @@ function makeCone3D(host, opts = {}){
   function paintCup(img){
     const g = cupCanvas.getContext("2d");
     g.fillStyle = "#FFFFFF"; g.fillRect(0, 0, 2048, 512);
-    g.fillStyle = "#1FA3E0"; g.fillRect(0, 488, 2048, 24);
+    g.fillStyle = "#20A9F4"; g.fillRect(0, 488, 2048, 24);
     if (img) for (const cx of [1024, 0, 2048]) {
       g.save(); g.beginPath(); g.arc(cx, 250, 205, 0, Math.PI*2); g.clip();
       g.drawImage(img, cx - 205, 45, 410, 410); g.restore();
@@ -592,7 +601,7 @@ function makeCone3D(host, opts = {}){
   // Small: white paper cup
   const paper = new THREE.Group(); body.add(paper);
   cup.position.y = 0.85; paper.add(cup);
-  const blue = new THREE.MeshStandardMaterial({color:0x1FA3E0, roughness:.35});
+  const blue = new THREE.MeshStandardMaterial({color:0x20A9F4, roughness:.35});
   const base = new THREE.Mesh(new THREE.CircleGeometry(0.82, 64), blue);
   base.rotation.x = Math.PI/2; paper.add(base);
   const lip = new THREE.Mesh(new THREE.TorusGeometry(1.16, 0.085, 16, 96), blue);
@@ -862,7 +871,7 @@ function makeCone3D(host, opts = {}){
 
   // Squeeze bottle that pours syrup onto the peak. Built upright with the nozzle tip at its origin.
   const bottle = new THREE.Group(); bottle.visible = false; scene.add(bottle);
-  const bottleMat = new THREE.MeshPhysicalMaterial({color:0xE5266E, roughness:.25, clearcoat:.8, transparent:true});
+  const bottleMat = new THREE.MeshPhysicalMaterial({color:0xFF2B86, roughness:.25, clearcoat:.8, transparent:true});
   const capMat = new THREE.MeshStandardMaterial({color:0xFFFFFF, roughness:.4, transparent:true});
   const labelMat = new THREE.MeshStandardMaterial({color:0xFFFFFF, roughness:.5, transparent:true});
   const bottleBody = new THREE.Group(); bottle.add(bottleBody);
@@ -873,7 +882,7 @@ function makeCone3D(host, opts = {}){
     const bottom = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.16, 0.05, 28), bottleMat); bottom.position.y = -0.9;
     const label = new THREE.Mesh(new THREE.CylinderGeometry(0.183, 0.183, 0.24, 28, 1, true), labelMat); label.position.y = -0.6;
     bottleBody.add(nozzle, cap, shoulder, tube, bottom, label); }
-  const streamMat = new THREE.MeshPhysicalMaterial({color:0xE5266E, roughness:.2, clearcoat:.6});
+  const streamMat = new THREE.MeshPhysicalMaterial({color:0xFF2B86, roughness:.2, clearcoat:.6});
   const streamGeo = new THREE.CylinderGeometry(0.024, 0.02, 1, 12); streamGeo.translate(0, -0.5, 0);
   const stream = new THREE.Mesh(streamGeo, streamMat); stream.visible = false; scene.add(stream);
   let bottleAnim = null;
@@ -913,7 +922,7 @@ function makeCone3D(host, opts = {}){
   }
 
   // Interaction
-  let rotY = 0.5, rotX = 0.18, velY = 0, velX = 0, dragging = false, lastX = 0, lastY = 0, moved = 0;
+  let rotY = 0, rotX = 0.18, velY = 0, velX = 0, dragging = false, lastX = 0, lastY = 0, moved = 0;
   let idleAt = 0, size = 1, sizeNow = 1, squishAt = -1e9, boost = 0, snapTo = null, lastLarge = null, lastKey = null, lastColors = [];
   const pts = new Map(); let pinch0 = 0, dist0 = dist;
   const el = renderer.domElement;
@@ -960,7 +969,7 @@ function makeCone3D(host, opts = {}){
     if (snapTo !== null && !dragging){
       // swing round to face the logo, then carry on spinning from there
       rotY += (snapTo - rotY) * 0.14; rotX += (0.18 - rotX) * 0.14;
-      if (Math.abs(snapTo - rotY) < 0.003){ rotY = snapTo; snapTo = null; idleAt = -1e9; }
+      if (Math.abs(snapTo - rotY) < 0.003){ rotY = snapTo; snapTo = null; idleAt = now - 800; }   // hold on the logo a moment
     } else if (!dragging){
       rotY += velY; velY *= 0.95; velX *= 0.85;
       rotX += (0.18 - rotX) * 0.01;
@@ -1011,17 +1020,16 @@ function makeCone3D(host, opts = {}){
     },
     zoom(f){ dist = Math.min(11, Math.max(3.2, dist * f)); },
     spin(){ boost = 0.35; squishAt = performance.now(); },
-    reset(){ rotX = 0.18; rotY = 0.5; velX = velY = 0; dist = BASE_Z; }
+    reset(){ velX = velY = 0; boost = 0; dist = BASE_Z; snapTo = Math.round(rotY / (Math.PI*2)) * Math.PI*2; }
   };
   return api;
 }
 
 const FLAVORS = [
-  {id:"mango-tango", name:"Mango Tango", tier:"classic", c:"#FFB21E", note:"Ripe mango"},
+  {id:"mango-tango", name:"Mango Tango", tier:"classic", c:"#FFAA00", note:"Ripe mango"},
   {id:"orange-burst", name:"Orange Burst", tier:"classic", c:"#FF7A1A", note:"Fresh orange"},
   {id:"strawberry-splash", name:"Strawberry Splash", tier:"classic", c:"#E8263B", note:"Sweet strawberry"},
-  {id:"melon-pop", name:"Melon Pop", tier:"classic", c:"#FF5C7A", note:"Juicy watermelon"},
-  {id:"blue-lagoon", name:"Blue Lagoon", tier:"classic", c:"#1FA3E0", note:"Sweet blueberry"},
+  {id:"blue-lagoon", name:"Blue Lagoon", tier:"classic", c:"#20A9F4", note:"Sweet blueberry"},
   {id:"tigers-blood", name:"Tiger's Blood", tier:"signature", c:"#C8102E", note:"Cherry, strawberry & a hint of coconut"},
   {id:"tropic-thunder", name:"Tropic Thunder", tier:"signature", c:"#F7C21D", note:"Mango-led tropical mix"},
   {id:"pina-colada", name:"Piña Colada", tier:"signature", c:"#F4E3A1", note:"Pineapple & coconut"},
@@ -1156,14 +1164,14 @@ function render(){
 // Mount the 3D cones (the flat drawings stay as a fallback if 3D can't run)
 const heroCone = makeCone3D(document.getElementById("heroCone"));
 if (heroCone){
-  heroCone.set({colors:["#E5266E","#F7A51D","#7CC242","#1FA3E0"], large:false});
+  heroCone.set({colors:["#FF2B86","#FFAA00","#9BD31F","#20A9F4"], large:false});
   document.querySelector(".hero-cone").classList.add("is3d");
 }
 const buildCone = makeCone3D(document.getElementById("buildCone"));
 if (buildCone){
   document.getElementById("stage").classList.add("is3d");
   document.getElementById("spinBtn").addEventListener("click", () => buildCone.spin());
-  document.getElementById("resetBtn").addEventListener("click", () => buildCone.reset());
+  document.getElementById("resetBtn").addEventListener("click", () => { state.flavors = []; state.addons.clear(); render(); buildCone.reset(); });
 }
 render();
 
